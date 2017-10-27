@@ -1,6 +1,7 @@
 int MMwidth, MMheight;
 int sizex, sizey;
 boolean [][] cells;
+PVector current = new PVector(-1, -1);
 
 void setup(){
   size(1500, 900);
@@ -21,7 +22,12 @@ void setup(){
 void draw(){
   println(frameRate);
   display();
-  
+  if(mouseX >= 0 && mouseX < MMwidth){
+    //I know this is more inefficient however it is much more clear for me while developing
+    if(mouseY >= 0 && mouseY < MMheight){
+      
+    }
+  }
 }
 
 
