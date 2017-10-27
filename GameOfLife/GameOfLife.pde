@@ -1,5 +1,7 @@
 boolean [][] cells;
-PVector MM = new PVector(0, 0), size = new PVector(0, 0), current = new PVector(-1, -1), pos = new PVector(-1, -1);
+PVector MM = new PVector(0, 0), size = new PVector(0, 0), current = new PVector(-1, -1), pos = new PVector(-1, -1); 
+boolean playing = false;
+int zoom = 15;
 
 void setup(){
   size(1500, 900);
@@ -11,8 +13,51 @@ void setup(){
 
 
 void draw(){
-  //println(frameRate);
+  println(frameRate);
+  if(playing){
+    compute();
+  }
+  checkMouse();
   display();
+  if(keyPressed){
+    if(key == ' '){
+      playing = true;
+    }
+  }
+}
+
+void compute(){
+  boolean [][] newCells = new boolean[int(size.x)][int(size.y)];
+  for(int x = 0; x < size.x; x ++){
+    for(int y = 0; y < size.y; y ++){
+      int nei = countN(x, y);
+      if(nei == 3){
+        newCells[x][y] = true;
+      }else if(nei == 4 && cells[x][y]){
+        newCells[x][y] = true;
+      }else{
+        newCells[x][y] = false;
+      }
+    }
+  }
+  cells = newCells;
+}
+
+int countN(int xpos, int ypos){
+  int counter = 0;
+  for(int x = -1; x <= 1; x ++){
+    for(int y = -1; y <= 1; y++){
+      if(xpos+x >= 0 && xpos+x < size.x && ypos+y >= 0 && ypos+y < size.y){
+        if(cells[xpos + x][ypos + y]){
+          counter ++;
+        }
+      }
+    }
+  }
+  return counter;
+}
+
+void checkMouse(){
   if(mouseButton == LEFT){
     if(mouseX >= 0 && mouseX < MM.x){
       //I know this is more inefficient however it is much more clear for me while developing
@@ -30,21 +75,21 @@ void draw(){
     current.x = -1;
     current.y = -1;
   }
+  
 }
 
 void preDisplay(){
   MM.x = width;
   MM.y = height-100;
   
-  size.x = int(MM.x/15);
-  size.y = int(MM.y/15);
+  size.x = int(MM.x/zoom);
+  size.y = int(MM.y/zoom);
   
   cells= new boolean[int(size.x)][int(size.y)];
   
 }
 
 void display(){
-  println(size.x, size.y);
   for (int x = 0; x < size.x; x++){
     for (int y= 0; y < size.y; y++){
       if(cells[x][y]){
