@@ -2,6 +2,7 @@ int MMwidth, MMheight;
 int sizex, sizey;
 boolean [][] cells;
 PVector current = new PVector(-1, -1);
+int posx = -1, posy = -1;
 
 void setup(){
   size(1500, 900);
@@ -22,11 +23,22 @@ void setup(){
 void draw(){
   println(frameRate);
   display();
-  if(mouseX >= 0 && mouseX < MMwidth){
-    //I know this is more inefficient however it is much more clear for me while developing
-    if(mouseY >= 0 && mouseY < MMheight){
-      
+  if(mouseButton == LEFT){
+    if(mouseX >= 0 && mouseX < MMwidth){
+      //I know this is more inefficient however it is much more clear for me while developing
+      if(mouseY >= 0 && mouseY < MMheight){
+        posx = (mouseX * sizex)/MMwidth;
+        posy = (mouseY * sizey)/MMheight;
+        if(current.x != posx || current.y != posy){
+          cells[posx][posy] = !cells[posx][posy];
+          current.x = posx;
+          current.y = posy;
+        }
+      }
     }
+  }else{
+    current.x = -1;
+    current.y = -1;
   }
 }
 
