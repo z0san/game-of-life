@@ -1,7 +1,7 @@
 boolean [][] cells;
 PVector MM = new PVector(0, 0), size = new PVector(0, 0), current = new PVector(-1, -1), pos = new PVector(-1, -1); 
 boolean playing = false;
-int zoom = 2;
+int zoom = 15;
 boolean clicked = false;
 float lastT = millis(), speed = 60;
 
